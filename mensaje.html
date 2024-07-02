@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensaje de Puntuación</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos adicionales o sobrescrituras específicas para mensaje.html */
+        .content h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #000000;
+        }
+
+        .content p {
+            font-size: 18px;
+            color: #000000;
+            margin-bottom: 20px;
+        }
+
+        .recomendacion {
+            padding: 10px;
+            border-radius: 10px;
+            font-style: italic;
+            margin-top: 20px;
+            color: #030303;
+            background: rgba(220, 53, 69, 0.2);
+        }
+
+        #formulario-telefono {
+            margin-top: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #000000;
+        }
+
+        input[type="tel"] {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: none;
+            width: 100%;
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.2);
+            color: #000000;
+            border: 2px solid #dc3545;
+        }
+
+        input[type="tel"]::placeholder {
+            color: #000000;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        button,
+        .whatsapp-btn {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover,
+        .whatsapp-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .whatsapp-btn {
+            background-color: #25d366;
+        }
+
+        .whatsapp-btn:hover {
+            background-color: #128c7e;
+        }
+
+        #rehacer-btn {
+            background-color: #dc3545;
+        }
+
+        #rehacer-btn:hover {
+            background-color: #b02a37;
+        }
+
+        #rehacer-btn a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff0;
+            top: -10px;
+            animation: fall 5s infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .confetti:nth-child(odd) {
+            background-color: #f0f;
+        }
+
+        .confetti:nth-child(even) {
+            background-color: #0ff;
+        }
+
+        .confetti:nth-child(3n) {
+            background-color: #ff0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="LogoGenConsultores2024.png" alt="Logo de Gen Consultores" class="logo">
+        </header>
+        <main class="content">
+            <div id="mensaje"></div>
+            <div id="formulario-telefono">
+                <h3>Envíe su número de teléfono para que podamos comunicarnos con usted:</h3>
+                <form id="formulario" action="procesar_formulario.php" method="post">
+                    <input type="tel" id="telefono" name="telefono" placeholder="Ingrese su número de teléfono" required>
+                    <div class="buttons">
+                        <button type="submit">Enviar</button>
+                        <a href="https://wa.me/976866575" class="whatsapp-btn">Contactar por WhatsApp</a>
+                        <button id="rehacer-btn">
+                            <a href="index.html">Rehacer el formulario</a>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </main>
+        <footer class="outer-footer">
+            <div class="footer-content">
+                <p>© 2024 Gen Consultores. Todos los derechos reservados.</p>
+                <button id="back-button">Visita GenConsultores.pe</button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        var mensaje = decodeURIComponent(window.location.search.replace('?mensaje=', ''));
+
+        var mensajes = {
+            "Nivel Básico": "Indica un nivel básico de desarrollo en el liderazgo. Puede haber áreas significativas de mejora en diversas competencias. <div class='recomendacion'>Recomendación: Identificar las áreas de debilidad y enfocarse en el desarrollo personal.</div>",
+            "Nivel Intermedio": "Muestra un desarrollo intermedio en el liderazgo. Hay algunas fortalezas, pero también áreas que podrían mejorarse. <div class='recomendacion'>Recomendación: Consolidar las fortalezas y abordar activamente las áreas de mejora.</div>",
+            "Nivel Avanzado": "Refleja un nivel avanzado de desarrollo en el liderazgo. Se evidencian fortalezas notables en varias competencias clave. <div class='recomendacion'>Recomendación: Continuar fortaleciendo las habilidades existentes y buscar oportunidades para el crecimiento adicional.</div>",
+            "Nivel Experto": "Representa un nivel experto en el liderazgo. Muestra un equilibrio excepcional de competencias y habilidades. <div class='recomendacion'>Recomendación: Mantener y continuar cultivando las fortalezas, y considerar compartir experiencias y conocimientos con otros líderes.</div>"
+        };
+
+        var mensajeElement = document.getElementById('mensaje');
+        mensajeElement.innerHTML = '<h2>' + mensaje + '</h2><p>' + mensajes[mensaje] + '</p>';
+
+        // Confetti animation
+        for (let i = 0; i < 100; i++) {
+            let confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.body.appendChild(confetti);
+        }
+
+        document.getElementById('back-button').addEventListener('click', function() {
+            window.location.href = 'https://www.gen.pe';
+        });
+    </script>
+     <script>
+        document.getElementById('telefono').addEventListener('input', function (e) {
+            // Elimina caracteres no numéricos
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    </script>
+</body>
+</html>
